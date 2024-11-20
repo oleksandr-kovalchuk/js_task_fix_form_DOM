@@ -4,29 +4,20 @@ const inputs = [...document.querySelectorAll('input')];
 
 inputs.forEach((input) => {
   const label = document.createElement('label');
+  const separatedWords = separateWords(input.name);
 
   label.className = 'field-label';
   label.htmlFor = input.id;
-
-  const separatedWords = separateWords(input.name);
-
   label.textContent = separatedWords;
 
-  input.placeholder =
-    separatedWords.charAt(0).toUpperCase() + separatedWords.slice(1);
-
+  input.placeholder = capitalizeFirstLetter(separatedWords);
   input.before(label);
 });
 
 function separateWords(word) {
-  let result = '';
+  return word.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
 
-  for (let i = 0; i < word.length; i++) {
-    if (i > 0 && word[i] === word[i].toUpperCase()) {
-      result += ' ';
-    }
-    result += word[i];
-  }
-
-  return result;
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
